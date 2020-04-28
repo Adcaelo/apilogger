@@ -23,7 +23,8 @@ abstract class AbstractLogger{
      *
      * @return void
      */
-    public function boot(){
+    public function boot()
+    {
         Event::listen('eloquent.*', function ($event, $models) {
             if (Str::contains($event, 'eloquent.retrieved')) {
                 foreach (array_filter($models) as $model) {
@@ -40,7 +41,8 @@ abstract class AbstractLogger{
      * @param  $response
      * @return array
      */
-    public function logData($request,$response){
+    public function logData($request,$response)
+    {
         $currentRouteAction = Route::currentRouteAction();
 
         // Initialiaze controller and action variable before use them
@@ -83,6 +85,7 @@ abstract class AbstractLogger{
         $this->logs['action'] = $action;
         $this->logs['models'] = $models;
         $this->logs['ip'] = $request->ip();
+        $this->logs['content'] = $response->status() == 200 ? null : json_encode($response->content());
 
         return $this->logs;
     }
@@ -92,7 +95,8 @@ abstract class AbstractLogger{
      * @param array $data
      * @return ApiLog
      */
-    public function mapArrayToModel(array $data){
+    public function mapArrayToModel(array $data)
+    {
         $model = new ApiLog();
         $model->created_at = Carbon::make($data[0]);
         $model->method = $data[1];
@@ -104,6 +108,8 @@ abstract class AbstractLogger{
         $model->action = $data[7];
         $model->models = $data[8];
         $model->ip = $data[9];
+        $model->content = json_decode(array_key_exists(10, $data) ? $data[10] : null);
+
         return $model;
     }
 

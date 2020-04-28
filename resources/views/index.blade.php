@@ -65,17 +65,22 @@
                             <p class="col-md-6 mb-1"><b>Models(Retrieved) :</b> {{$log->models}}</p>
                         </div>
                         <div class="row w-100">
-                                <p class="col-md-3">
-                                    <b>Method :</b>   {{$log->action}}
-                                </p>
-                                <p class="col-md-3 mb-1"><b>Payload : </b>{{$log->payload}}</p>
+                            <p class="col-md-3">
+                                <b>Method :</b>   {{$log->action}}
+                            </p>
+                            <p class="col-md-3 mb-1"><b>Payload : </b>{{$log->payload}}</p>
 
-                                <p class="col-md-6">
-                                    <b>Controller :</b> {{$log->controller}}
-                                    
-                                </p>
-                            
+                            <p class="col-md-6">
+                                <b>Controller :</b> {{$log->controller}}
+                            </p>
                         </div>
+                        @if ($log->content)
+                            <div class="row w-100">
+                                <p class="col-md-12">
+                                    <b>Content :</b> {{$log->content}}
+                                </p>
+                            </div>
+                        @endif
                     </div>
                     @empty
                     <h5>
